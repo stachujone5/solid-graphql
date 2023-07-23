@@ -1,9 +1,26 @@
-import type { Component } from 'solid-js';
+import type { Component } from "solid-js";
 
-import logo from './logo.svg';
-import styles from './App.module.css';
+import logo from "./logo.svg";
+import styles from "./App.module.css";
+import { effect } from "solid-js/web";
+import { client } from "./graphql/client";
+import { gql } from "graphql-request";
+
+gql`
+  query getUser {
+    messages {
+      user
+      content
+      id
+    }
+  }
+`;
 
 const App: Component = () => {
+  effect(() => {
+    client.getUser().then((data) => console.log(data));
+  });
+
   return (
     <div class={styles.App}>
       <header class={styles.header}>
